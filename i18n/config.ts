@@ -14,7 +14,9 @@ i18n
       escapeValue: false,
     },
     backend: {
-      loadPath: "/locales/{{lng}}/translation.json",
+      loadPath: typeof window !== "undefined" 
+        ? "/locales/{{lng}}/translation.json"
+        : undefined, // buildda ishlatilmaydi
     },
     ns: ["translation"],
     defaultNS: "translation",
