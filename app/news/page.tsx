@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { useLocale } from "@/hooks/use-locale"
 import { newsData } from "@/lib/mock-data"
@@ -35,6 +35,10 @@ export default function NewsPage() {
     })
 
   const categories = ["all", ...Array.from(new Set(newsData.map((news) => news.category)))]
+
+  useEffect(() => {
+    console.log("NewsPage loaded ✅")
+  }, [])
 
   return (
     <div className="min-h-screen">
