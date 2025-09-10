@@ -9,16 +9,20 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { useLocale } from "@/hooks/use-locale"
 import { mockTours } from "@/lib/mock-data"
+import Sidebar from "../_components/sidebar"
+import Overview from "../_components/overview"
+import * as React from "react"
+
+
 
 interface TourPageProps {
-  params: {
-    slug: string
-  }
+  params: Promise<{ slug: string }>
 }
 
 export default function TourPage({ params }: TourPageProps) {
   const { locale } = useLocale()
-  const tour = mockTours.find((t) => t.slug === params.slug)
+  const { slug } = React.use(params)
+  const tour = mockTours.find((t) => t.slug === slug)
 
   if (!tour) {
     notFound()
@@ -221,78 +225,11 @@ export default function TourPage({ params }: TourPageProps) {
                 </div>
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-              >
-                <h2 className="text-3xl font-bold text-foreground mb-6">{content.overview}</h2>
-                <p className="text-muted-foreground leading-relaxed text-lg">{content.description} 
-                  Bizning professional tarzda tayyorlangan sayohatimiz bilan bu ajoyib joyning sehrini his eting. Yashirin marvaridlarni kashf eting, mahalliy madaniyatga sho'ng'ing va umr bo'yi esda qoladigan xotiralar yarating.
-                  Bizning professional tarzda tayyorlangan sayohatimiz bilan bu ajoyib joyning sehrini his eting. Yashirin marvaridlarni kashf eting, mahalliy madaniyatga sho'ng'ing va umr bo'yi esda qoladigan xotiralar yarating.
-                  Bizning professional tarzda tayyorlangan sayohatimiz bilan bu ajoyib joyning sehrini his eting. Yashirin marvaridlarni kashf eting, mahalliy madaniyatga sho'ng'ing va umr bo'yi esda qoladigan xotiralar yarating.
-                  Bizning professional tarzda tayyorlangan sayohatimiz bilan bu ajoyib joyning sehrini his eting. Yashirin marvaridlarni kashf eting, mahalliy madaniyatga sho'ng'ing va umr bo'yi esda qoladigan xotiralar yarating.
-                  Bizning professional tarzda tayyorlangan sayohatimiz bilan bu ajoyib joyning sehrini his eting. Yashirin marvaridlarni kashf eting, mahalliy madaniyatga sho'ng'ing va umr bo'yi esda qoladigan xotiralar yarating.
-                </p>
-              </motion.div>
+              <Overview />
             </div>
 
             {/* Sidebar */}
-            <div className="lg:col-span-1">
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                className="sticky top-24 space-y-6"
-              >
-                {/* Booking Card */}
-                <h2 className="text-3xl font-bold text-foreground mb-6">Registration</h2>
-                <div className="bg-card border border-border rounded-2xl p-6 shadow-lg">
-                  <div className="text-center mb-6">
-                    <div className="text-3xl font-bold text-foreground">${tour.price}</div>
-                    <div className="text-muted-foreground">per person</div>
-                  </div>
-
-                  <div className="space-y-4 mb-6">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Duration:</span>
-                      <span className="font-medium">{tour.duration}</span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Group Size:</span>
-                      <span className="font-medium">2-12 people</span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Language:</span>
-                      <span className="font-medium">English, Uzbek, Russian</span>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-full font-semibold py-3">
-                      {content.bookNow}
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Contact Info */}
-                <div className="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl p-6">
-                  <h3 className="font-bold text-foreground mb-4">
-                    {locale === "en" ? "Need Help?" : locale === "uz" ? "Yordam Kerakmi?" : "Нужна Помощь?"}
-                  </h3>
-                  <p className="text-muted-foreground text-sm mb-4">
-                    {locale === "en"
-                      ? "Our travel experts are here to help you plan the perfect trip."
-                      : locale === "uz"
-                        ? "Bizning sayohat mutaxassislarimiz sizga mukammal sayohatni rejalashtirish uchun yordam berishga tayyor."
-                        : "Наши эксперты по путешествиям готовы помочь вам спланировать идеальную поездку."}
-                  </p>
-                  <Button variant="outline" className="w-full rounded-full bg-transparent">
-                    {locale === "en" ? "Contact Us" : locale === "uz" ? "Biz Bilan Bog'laning" : "Связаться с Нами"}
-                  </Button>
-                </div>
-              </motion.div>
-            </div>
+            <Sidebar />
           </div>
         </div>
       </section>

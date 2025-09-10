@@ -131,6 +131,6 @@
   }
 
   .container {
-    @apply mx-auto;
+    @apply mx-auto w-full max-w-[100rem] px-6;
   }
 }
