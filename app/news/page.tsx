@@ -24,11 +24,9 @@ export default function NewsPage() {
     <div className="min-h-screen">
       <PageBanner
         title="Latest News"
-        subtitle="Discover amazing destinations and unforgettable experiences"
-        backgroundImage="/uzbekistan-landscape-mountains-desert-panorama.jpg"
-        // eslint-disable-next-line @next/next/no-img-element
-        //  @ts-ignore
-        height="40vh"
+        description="Discover amazing destinations and unforgettable experiences"
+        backgroundImage="/images/nature2.webp"
+        height="50vh"
       />
 
       <div className="container mx-auto px-4 py-16">

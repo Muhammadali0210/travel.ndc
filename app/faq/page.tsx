@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { useLocale } from "@/hooks/use-locale"
 import { PageBanner } from "@/components/page-banner"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,28 +11,28 @@ import Link from "next/link"
 
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n/config"
+import { useLocale } from "@/hooks/use-locale"
 
 export default function FAQPage() {
-  // const { t } = useLocale()
   const [searchTerm, setSearchTerm] = useState("")
   const [openItems, setOpenItems] = useState<number[]>([])
-  const { t } = useTranslation();
+  const { t } = useLocale();
 
   const faqCategories = [
     {
-      title: t("faq.booking"),
+      title: t.get("faq.answerTitle"),
       questions: [
         {
-          question: t("faq.howToBook"),
-          answer: t("faq.howToBookAnswer"),
+          question: "Test question",
+          answer: "Test question",
         },
         {
-          question: t("faq.cancellation"),
-          answer: t("faq.cancellationAnswer"),
+          question: "Test question",
+          answer: "Test question",
         },
         {
-          question: t("faq.payment"),
-          answer: t("faq.paymentAnswer"),
+          question: "Test question",
+          answer: "Test question",
         },
       ],
     }
@@ -65,24 +64,19 @@ export default function FAQPage() {
   return (
     <div className="min-h-screen">
       <PageBanner
-        title={t("faq.title")}
-        // eslint-disable-next-line react/no-unescaped-entities
-        // @ts-ignore
-        subtitle={t("faq.subtitle")}
-        backgroundImage="/khiva-ancient-fortress-walls.jpg"
-        height="40vh"
+        title={t.get("faq.title")}
+        description={t.get("faq.subtitle")}
+        backgroundImage="/images/nature4.png"
+        height="50vh"
       />
 
-      {/* <button onClick={() => changeLang('en')}>EN</button>
-      <button onClick={() => changeLang('ru')}>RU</button> */}
 
       <div className="container mx-auto px-4 py-16">
-        {/* Search */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl mx-auto mb-12">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
             <Input
-              placeholder={t("faq.searchPlaceholder")}
+              placeholder={t.get("faq.inputText")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-12 h-12 text-lg"
@@ -133,8 +127,8 @@ export default function FAQPage() {
               ))}
               {filteredQuestions.length === 0 && (
                 <div className="text-center py-12">
-                  <h3 className="text-xl font-semibold text-muted-foreground mb-2">{t("faq.noResults")}</h3>
-                  <p className="text-muted-foreground">{t("faq.tryDifferentSearch")}</p>
+                  <h3 className="text-xl font-semibold text-muted-foreground mb-2">No result</h3>
+                  <p className="text-muted-foreground">No data desc</p>
                 </div>
               )}
             </div>
@@ -198,18 +192,18 @@ export default function FAQPage() {
           className="mt-16 text-center bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-8"
         >
           <MessageCircle className="h-12 w-12 text-primary mx-auto mb-4" />
-          <h3 className="text-2xl font-bold mb-4">{t("faq.stillHaveQuestions")}</h3>
-          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">{t("faq.contactDescription")}</p>
+          <h3 className="text-2xl font-bold mb-4">{t.get("faq.cardTitle")}</h3>
+          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">{t.get("faq.cardSubtitle")}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact">
               <Button className="gap-2">
                 <Mail className="h-4 w-4" />
-                {t("faq.contactUs")}
+                {t.get("faq.conactButton")}
               </Button>
             </Link>
             <Button variant="outline" className="gap-2 bg-transparent">
               <Phone className="h-4 w-4" />
-              {t("faq.callUs")}
+              {t.get("faq.callButton")}
             </Button>
           </div>
         </motion.div>

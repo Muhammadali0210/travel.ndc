@@ -60,9 +60,9 @@ export default function ContactPage() {
     <div className="min-h-screen">
       <PageBanner
         title="Contact Us"
-        subtitle="Get in touch with our travel experts to plan your perfect journey"
-        backgroundImage="/serene-mountain-lake.png"
-        height="60vh"
+        description="Get in touch with our travel experts to plan your perfect journey"
+        backgroundImage="/images/nature3.webp"
+        height="50vh"
       />
 
       <div className="container mx-auto px-4 py-16">

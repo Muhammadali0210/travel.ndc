@@ -25,7 +25,8 @@ export default function ToursPage() {
       <PageBanner
         title={t.get("nav.link3")}
         description="Discover amazing destinations and unforgettable experiences"
-        backgroundImage="/uzbekistan-landscape-mountains-desert-panorama.jpg"
+        backgroundImage="/images/nature.jpg"
+        height="50vh"
       />
 
       <section className="py-16 max-md:py-8 px-4">

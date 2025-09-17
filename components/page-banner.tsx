@@ -6,7 +6,7 @@ interface PageBannerProps {
   title: string
   description?: string
   backgroundImage?: string
-  height?: "40vh" | "100vh"
+  height?: "40vh" | "50vh" | "100vh"
 }
 
 export function PageBanner({
