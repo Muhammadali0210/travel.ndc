@@ -13,7 +13,7 @@ import Providers from "@/components/providers/provider"
 export const metadata: Metadata = {
   title: "TravelUz - Discover Amazing Adventures",
   description: "Explore Uzbekistan and the world with our expertly crafted tours and unforgettable experiences",
-  generator: "v0.app",
+  generator: "Next.js",
 }
 
 export default function RootLayout({

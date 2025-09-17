@@ -11,6 +11,7 @@ import { getTranslation } from "@/lib/i18n"
 // Import Swiper styles
 import "swiper/css"
 import "swiper/css/effect-fade"
+import { useBannerGet } from "@/services/banner.service"
 
 const heroVideos = [
   {
@@ -45,6 +46,10 @@ export function HeroVideoSlider() {
       }
     })
   }, [])
+
+  const {data, isLoading, error} = useBannerGet()
+
+  console.log("Banners: ", data)
 
   return (
     <div className="relative h-screen w-full overflow-hidden bg-gray-900">

@@ -8,11 +8,13 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useLocale } from "@/hooks/use-locale"
 import { getTranslation, type Locale } from "@/lib/i18n"
+import useTranslationStore from "@/store/lang.store"
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { locale, changeLocale } = useLocale()
+  const { t, fetchTranslations } = useTranslationStore()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,12 +26,12 @@ export function Navbar() {
   }, [])
 
   const navItems = [
-    { href: "/", key: "nav.home" },
-    { href: "/about", key: "nav.about" },
-    { href: "/tur", key: "nav.tours" },
-    { href: "/news", key: "nav.news" },
-    { href: "/faq", key: "nav.faq" },
-    { href: "/contact", key: "nav.contacts" },
+    { href: "/", key: "nav.link1" },
+    { href: "/about", key: "nav.link2" },
+    { href: "/tur", key: "nav.link3" },
+    { href: "/news", key: "nav.link4" },
+    { href: "/faq", key: "nav.link5" },
+    { href: "/contact", key: "nav.link6" },
   ]
 
   const localeLabels: Record<Locale, string> = {
@@ -79,7 +81,7 @@ export function Navbar() {
               style={!isScrolled ? { textShadow: "1px 1px 2px rgba(0,0,0,0.8)" } : {}}
             >
               <motion.span whileHover={{ y: -2 }} className="block">
-                {getTranslation(locale, item.key)}
+                 {t?.[item.key]}
               </motion.span>
             </Link>
           ))}
@@ -107,7 +109,7 @@ export function Navbar() {
               {(["en", "uz", "ru"] as Locale[]).map((lang) => (
                 <DropdownMenuItem
                   key={lang}
-                  onClick={() => changeLocale(lang)}
+                  onClick={() => fetchTranslations(lang)}
                   className={locale === lang ? "bg-accent" : ""}
                 >
                   {localeLabels[lang]}
@@ -151,7 +153,7 @@ export function Navbar() {
                   className="block py-2 text-foreground hover:text-primary transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {getTranslation(locale, item.key)}
+                  {t?.[item.key]}
                 </Link>
               ))}
             </div>
