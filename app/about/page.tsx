@@ -14,61 +14,61 @@ export default function AboutPage() {
   const { t } = useLocale()
 
   const stats = [
-    { number: "10+", label: t.about.yearsExperience },
-    { number: "5000+", label: t.about.happyTravelers },
-    { number: "50+", label: t.about.destinations },
-    { number: "98%", label: t.about.satisfaction },
+      { number: "10+", label: "Years Experience" },
+    { number: "5000+", label: "Happy Travelers" },
+    { number: "50+", label: "Destinations" },
+    { number: "98%", label: "Satisfaction" },
   ]
 
   const team = [
     {
       name: "Akmal Karimov",
-      role: t.about.founder,
+      role: "Founder",
       image: "/professional-uzbek-man-founder.jpg",
-      bio: t.about.founderBio,
+      bio: "Founder",
     },
     {
       name: "Dilnoza Rahimova",
-      role: t.about.tourGuide,
+      role: "Tour Guide",
       image: "/professional-uzbek-woman-tour-guide.jpg",
-      bio: t.about.guideBio,
+      bio: "Tour Guide",
     },
     {
       name: "Bobur Tashmatov",
-      role: t.about.operations,
+      role: "Operations Manager",
       image: "/professional-uzbek-man-operations-manager.jpg",
-      bio: t.about.operationsBio,
+      bio: "Operations Manager",
     },
   ]
 
   const values = [
     {
       icon: Heart,
-      title: t.about.passion,
-      description: t.about.passionDesc,
+      title: "Passion",
+      description: "We are passionate about travel and sharing the wonders of the world with you.",
     },
     {
       icon: Users,
-      title: t.about.community,
-      description: t.about.communityDesc,
+      title: "Community",
+      description: "We support local communities and promote sustainable tourism practices.",
     },
     {
       icon: Award,
-      title: t.about.excellence,
-      description: t.about.excellenceDesc,
+      title: "Excellence",
+      description: "We strive for excellence in every aspect of your journey.",
     },
     {
       icon: Globe,
-      title: t.about.sustainability,
-      description: t.about.sustainabilityDesc,
+      title: "Sustainability",
+      description: "We are committed to responsible tourism that preserves destinations for future generations.",
     },
   ]
 
   return (
     <div className="min-h-screen">
       <PageBanner
-        title={t.about.title}
-        subtitle={t.about.subtitle}
+        title="About Us"
+        subtitle="Discover who we are and what drives our passion for travel"
         backgroundImage="/bukhara-old-city-architecture.jpg"
         height="60vh"
       />
@@ -79,16 +79,16 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <Badge variant="secondary" className="mb-4">
-                {t.about.ourStory}
+                Our Story
               </Badge>
-              <h2 className="text-3xl font-bold mb-6 text-balance">{t.about.storyTitle}</h2>
+              <h2 className="text-3xl font-bold mb-6 text-balance">Passionate About Creating Unforgettable Journeys</h2>
               <div className="space-y-4 text-muted-foreground leading-relaxed">
-                <p>{t.about.storyParagraph1}</p>
-                <p>{t.about.storyParagraph2}</p>
-                <p>{t.about.storyParagraph3}</p>
+                <p>Founded in 2014, we began as a small group of travel enthusiasts with a simple mission: to share the incredible beauty and rich culture of Uzbekistan with the world.</p>
+                <p>Over the years, we've grown into a trusted travel company, but our core values remain unchanged. We believe that travel is more than just visiting places – it's about creating connections, understanding cultures, and making memories that last a lifetime.</p>
+                <p>Today, we're proud to have helped thousands of travelers discover the magic of Central Asia and beyond, always with the same personal touch and attention to detail that defined us from the beginning.</p>
               </div>
               <Link href="/contact">
-                <Button className="mt-6">{t.about.getInTouch}</Button>
+                <Button className="mt-6">Get In Touch</Button>
               </Link>
             </div>
             <div className="relative h-[500px] rounded-2xl overflow-hidden">
@@ -131,10 +131,10 @@ export default function AboutPage() {
         >
           <div className="text-center mb-12">
             <Badge variant="secondary" className="mb-4">
-              {t.about.ourValues}
+              Our Values
             </Badge>
-            <h2 className="text-3xl font-bold mb-4 text-balance">{t.about.valuesTitle}</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">{t.about.valuesSubtitle}</p>
+            <h2 className="text-3xl font-bold mb-4 text-balance">What We Stand For</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">What We Stand For</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value, index) => (
@@ -153,10 +153,10 @@ export default function AboutPage() {
         >
           <div className="text-center mb-12">
             <Badge variant="secondary" className="mb-4">
-              {t.about.ourTeam}
+              Our Team
             </Badge>
-            <h2 className="text-3xl font-bold mb-4 text-balance">{t.about.teamTitle}</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">{t.about.teamSubtitle}</p>
+            <h2 className="text-3xl font-bold mb-4 text-balance">Meet the Team Behind Our Success</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">Meet the Team Behind Our Success</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {team.map((member, index) => (

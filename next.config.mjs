@@ -8,6 +8,14 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'project1.ndc-agency.uz',
+        port: '',
+        pathname: '/upload/images/**',
+      },
+    ],
   },
 }
 

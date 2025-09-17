@@ -36,11 +36,21 @@ export interface IFeedback {
 
 export interface IBanner {
   id: number;
-  title: string;
-  desc: string;
+  title: string | null;
+  desc: string | null;
   url: string;
   video: null | string;
   images: IImage;
+}
+
+export interface IBannerResponse {
+  data: IBanner[];
+  total: number;
+  per_page: number;
+  current_page: number;
+  last_page: number;
+  next_page_url: null | string;
+  prev_page_url: null | string;
 }
 
 export interface INews {
@@ -71,4 +81,14 @@ export interface ITour {
   map: string;
   slug: string;
   images: IImage[];
+}
+
+export interface ApiResponse {
+  data: ITour[] | IBanner[] | INews[];
+  total: number;
+  per_page: number;
+  current_page: number;
+  last_page: number;
+  next_page_url: null | string;
+  prev_page_url: null | string;
 }

@@ -7,14 +7,11 @@ import { Menu, X, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useLocale } from "@/hooks/use-locale"
-import { getTranslation, type Locale } from "@/lib/i18n"
-import useTranslationStore from "@/store/lang.store"
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { locale, changeLocale } = useLocale()
-  const { t, fetchTranslations } = useTranslationStore()
+  const { locale, changeLocale, t } = useLocale()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,7 +31,7 @@ export function Navbar() {
     { href: "/contact", key: "nav.link6" },
   ]
 
-  const localeLabels: Record<Locale, string> = {
+  const localeLabels: Record<string, string> = {
     en: "English",
     uz: "O'zbekcha",
     ru: "Русский",
@@ -81,7 +78,7 @@ export function Navbar() {
               style={!isScrolled ? { textShadow: "1px 1px 2px rgba(0,0,0,0.8)" } : {}}
             >
               <motion.span whileHover={{ y: -2 }} className="block">
-                 {t?.[item.key]}
+                 {t.get(item.key)}
               </motion.span>
             </Link>
           ))}
@@ -106,10 +103,10 @@ export function Navbar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {(["en", "uz", "ru"] as Locale[]).map((lang) => (
+              {(["en", "uz", "ru"] as string[]).map((lang) => (
                 <DropdownMenuItem
                   key={lang}
-                  onClick={() => fetchTranslations(lang)}
+                  onClick={() => changeLocale(lang)}
                   className={locale === lang ? "bg-accent" : ""}
                 >
                   {localeLabels[lang]}
@@ -153,7 +150,7 @@ export function Navbar() {
                   className="block py-2 text-foreground hover:text-primary transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {t?.[item.key]}
+                  {t.get(item.key)}
                 </Link>
               ))}
             </div>

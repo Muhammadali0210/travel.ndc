@@ -6,16 +6,15 @@ import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useLocale } from "@/hooks/use-locale"
-import { getTranslation } from "@/lib/i18n"
 
 export function Footer() {
-  const { locale } = useLocale()
+  const { locale, t } = useLocale()
 
   const quickLinks = [
-    { href: "/", key: "nav.home" },
-    { href: "/about", key: "nav.about" },
-    { href: "/tur", key: "nav.tours" },
-    { href: "/news", key: "nav.news" },
+    { href: "/", key: "nav.link1" },
+    { href: "/about", key: "nav.link2" },
+    { href: "/tur", key: "nav.link3" },
+    { href: "/news", key: "nav.link4" },
   ]
 
   const socialLinks = [
@@ -73,7 +72,7 @@ export function Footer() {
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                    {getTranslation(locale, link.key)}
+                    {t.get(link.key)}
                   </Link>
                 </li>
               ))}

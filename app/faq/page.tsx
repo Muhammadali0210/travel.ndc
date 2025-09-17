@@ -36,41 +36,7 @@ export default function FAQPage() {
           answer: t("faq.paymentAnswer"),
         },
       ],
-    },
-    {
-      title: t("faq.travel"),
-      questions: [
-        {
-          question: t("faq.bestTime"),
-          answer: t("faq.bestTimeAnswer"),
-        },
-        {
-          question: t("faq.visa"),
-          answer: t("faq.visaAnswer"),
-        },
-        {
-          question: t("faq.currency"),
-          answer: t("faq.currencyAnswer"),
-        },
-      ],
-    },
-    {
-      title: t("faq.accommodation"),
-      questions: [
-        {
-          question: t("faq.hotels"),
-          answer: t("faq.hotelsAnswer"),
-        },
-        {
-          question: t("faq.meals"),
-          answer: t("faq.mealsAnswer"),
-        },
-        {
-          question: t("faq.transport"),
-          answer: t("faq.transportAnswer"),
-        },
-      ],
-    },
+    }
   ];
 
   const allQuestions = faqCategories.flatMap((category, categoryIndex) =>

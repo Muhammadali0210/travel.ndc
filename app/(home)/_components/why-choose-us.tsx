@@ -1,26 +1,25 @@
 'use client'
 import { FeatureCard } from '@/components/feature-card'
-import { getTranslation } from '@/lib/i18n'
 import { Award, Headphones, Shield, Users } from 'lucide-react'
 import { useLocale } from "@/hooks/use-locale"
 
 const WhyChooseUs = () => {
-    const { locale } = useLocale()
+    const { locale, t } = useLocale()
     const features = [
         {
             icon: Users,
-            title: getTranslation(locale, "features.experience.title"),
-            description: getTranslation(locale, "features.experience.description"),
+            title: t.get("home.our-1"),
+            description: t.get("home.our-1"),
         },
         {
             icon: Shield,
-            title: getTranslation(locale, "features.safety.title"),
-            description: getTranslation(locale, "features.safety.description"),
+            title: t.get("home.our-2"),
+            description: t.get("home.our-2"),
         },
         {
             icon: Headphones,
-            title: getTranslation(locale, "features.support.title"),
-            description: getTranslation(locale, "features.support.description"),
+            title: t.get("home.our-3"),
+            description: t.get("home.our-3"),
         },
         {
             icon: Award,
@@ -40,7 +39,7 @@ const WhyChooseUs = () => {
                     className="text-center mb-16"
                 >
                     <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-                        {getTranslation(locale, "features.title")}
+                        {t.get("home.our")}
                     </h2>
                     <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
                         {locale === "en" &&

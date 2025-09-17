@@ -1,4 +1,4 @@
-import { BASE_URL } from '@/hooks/https-request'
+import { BASE_URL } from '@/lib/constants'
 import { ILangData, ITranslation } from '@/types'
 import { create } from 'zustand'
 

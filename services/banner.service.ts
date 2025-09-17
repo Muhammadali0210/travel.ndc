@@ -1,6 +1,6 @@
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import request from '../hooks/https-request';
-import { IBanner } from '@/types';
+import { IBanner, IBannerResponse } from '@/types';
 
 const service = {
   getList: (params?: Record<string, unknown>) => request.get('/banners', { params }),
@@ -11,7 +11,8 @@ interface Params {
 }
 
 export const useBannerGet = () => {
-  return useQuery<IBanner, Error>({
+  return useQuery<IBannerResponse, Error>({
+    queryKey: ['banners'],
     queryFn: () => service.getList().then(res => res.data)
   });
 };

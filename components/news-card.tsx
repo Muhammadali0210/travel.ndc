@@ -6,16 +6,16 @@ import Link from "next/link"
 import { Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useLocale } from "@/hooks/use-locale"
-import { getTranslation } from "@/lib/i18n"
-import type { NewsItem } from "@/lib/mock-data"
+import { getImageUrl } from "@/lib/utils"
+import { INews } from "@/types"
 
 interface NewsCardProps {
-  news: NewsItem
+  news: INews
   index?: number
 }
 
 export function NewsCard({ news, index = 0 }: NewsCardProps) {
-  const { locale } = useLocale()
+  const { locale, t } = useLocale()
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -28,11 +28,11 @@ export function NewsCard({ news, index = 0 }: NewsCardProps) {
 
   return (
     <div
-      className="group bg-card rounded-xl transition-all duration-300 overflow-hidden border border"
+      className="group bg-card rounded-xl transition-all duration-300 overflow-hidden border"
     >
       <div className="relative h-48 overflow-hidden">
         <Image
-          src={news.image || "/placeholder.svg"}
+          src={getImageUrl(news?.images[0]?.md || "")}
           alt={news.title}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -43,22 +43,22 @@ export function NewsCard({ news, index = 0 }: NewsCardProps) {
       <div className="p-6 space-y-4">
         <div className="flex items-center space-x-2 text-sm text-muted-foreground">
           <Calendar className="w-4 h-4" />
-          <span>{formatDate(news.publishedAt)}</span>
+          <span>{formatDate(news?.date)}</span>
         </div>
 
         <div className="space-y-2">
           <h3 className="text-lg font-bold text-card-foreground group-hover:text-primary transition-colors line-clamp-1">
-            {news.title}
+            {news?.title}
           </h3>
-          <p className="text-muted-foreground text-sm line-clamp-2">{news.excerpt}</p>
+          <p className="text-muted-foreground text-sm line-clamp-2" dangerouslySetInnerHTML={{ __html: news?.desc || "" }}></p>
         </div>
 
-        <Link href={`/news/${news.slug}`}>
+        <Link href={`/news/${news?.slug}`}>
           <Button
             variant="outline"
             className="w-full cursor-pointer rounded-xl font-semibold hover:bg-primary hover:text-primary-foreground transition-all duration-300 bg-transparent"
           >
-            {getTranslation(locale, "news.readMore")}
+            Read more
           </Button>
         </Link>
       </div>

@@ -8,49 +8,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { PageBanner } from "@/components/page-banner"
 import { TourCardCreative } from "@/components/tour-card-creative"
 import { useLocale } from "@/hooks/use-locale"
-import { getTranslation } from "@/lib/i18n"
-import { mockTours } from "@/lib/mock-data"
+import { useToursGet } from "@/services/tours.service"
+import { ITour } from "@/types"
 
 export default function ToursPage() {
-  const { locale } = useLocale()
+  const { locale, t } = useLocale()
   const [searchTerm, setSearchTerm] = useState("")
   const [categoryFilter, setCategoryFilter] = useState<string>("all")
   const [sortBy, setSortBy] = useState<string>("popular")
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
 
-  const filteredTours = mockTours
-    .filter((tour) => {
-      const matchesSearch =
-        tour.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        tour.description.toLowerCase().includes(searchTerm.toLowerCase())
-      const matchesCategory = categoryFilter === "all" || tour.category === categoryFilter
-      return matchesSearch && matchesCategory
-    })
-    .sort((a, b) => {
-      switch (sortBy) {
-        case "price-low":
-          return a.price - b.price
-        case "price-high":
-          return b.price - a.price
-        case "duration":
-          return Number.parseInt(a.duration) - Number.parseInt(b.duration)
-        case "popular":
-        default:
-          return b.isPopular ? 1 : -1
-      }
-    })
+  const { data: filteredTours } = useToursGet()
 
   return (
     <div className="min-h-screen">
       <PageBanner
-        title={getTranslation(locale, "nav.tours")}
-        description={
-          locale === "en"
-            ? "Discover amazing destinations and unforgettable experiences"
-            : locale === "uz"
-              ? "Ajoyib joylar va unutilmas tajribalarni kashf eting"
-              : "Откройте удивительные места и незабываемые впечатления"
-        }
+        title={t.get("nav.link3")}
+        description="Discover amazing destinations and unforgettable experiences"
         backgroundImage="/uzbekistan-landscape-mountains-desert-panorama.jpg"
       />
 
@@ -66,7 +40,7 @@ export default function ToursPage() {
               <Input
                 type="text"
                 placeholder={
-                  locale === "en" ? "Search tours..." : locale === "uz" ? "Sayohatlarni qidirish..." : "Поиск туров..."
+                  "Search tours..."
                 }
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -82,10 +56,10 @@ export default function ToursPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">
-                    {locale === "en" ? "All Tours" : locale === "uz" ? "Barcha Sayohatlar" : "Все Туры"}
+                    All Tours
                   </SelectItem>
-                  <SelectItem value="uzbekistan">{getTranslation(locale, "tours.uzbekistan")}</SelectItem>
-                  <SelectItem value="international">{getTranslation(locale, "tours.international")}</SelectItem>
+                  <SelectItem value="uzbekistan">{t.get("home.tour-uz")}</SelectItem>
+                  <SelectItem value="international">{t.get("home.tour-ru")}</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -95,24 +69,16 @@ export default function ToursPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="popular">
-                    {locale === "en" ? "Most Popular" : locale === "uz" ? "Eng Mashhur" : "Самые Популярные"}
+                    Most Popular
                   </SelectItem>
                   <SelectItem value="price-low">
-                    {locale === "en"
-                      ? "Price: Low to High"
-                      : locale === "uz"
-                        ? "Narx: Pastdan Yuqoriga"
-                        : "Цена: По возрастанию"}
+                    Price: Low to High
                   </SelectItem>
                   <SelectItem value="price-high">
-                    {locale === "en"
-                      ? "Price: High to Low"
-                      : locale === "uz"
-                        ? "Narx: Yuqoridan Pastga"
-                        : "Цена: По убыванию"}
+                    Price: High to Low
                   </SelectItem>
                   <SelectItem value="duration">
-                    {locale === "en" ? "Duration" : locale === "uz" ? "Davomiyligi" : "Продолжительность"}
+                    Duration
                   </SelectItem>
                 </SelectContent>
               </Select>
@@ -126,13 +92,13 @@ export default function ToursPage() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {filteredTours.map((tour, index) => (
-              <TourCardCreative key={tour.id} tour={tour} index={index} />
+            {filteredTours?.data.map((tour, index) => (
+              <TourCardCreative key={tour.id} tour={tour as ITour} index={index} />
             ))}
           </motion.div>
 
           {/* Empty State */}
-          {filteredTours.length === 0 && (
+          {filteredTours?.data.length === 0 && (
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -141,14 +107,10 @@ export default function ToursPage() {
             >
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="text-2xl font-bold text-foreground mb-2">
-                {locale === "en" ? "No tours found" : locale === "uz" ? "Sayohatlar topilmadi" : "Туры не найдены"}
+                No tours found
               </h3>
               <p className="text-muted-foreground">
-                {locale === "en"
-                  ? "Try adjusting your search criteria"
-                  : locale === "uz"
-                    ? "Qidiruv mezonlarini o'zgartirib ko'ring"
-                    : "Попробуйте изменить критерии поиска"}
+                Try adjusting your search criteria
               </p>
             </motion.div>
           )}

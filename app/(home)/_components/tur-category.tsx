@@ -2,15 +2,15 @@
 
 import { SmallTourCard } from "@/components/small-tour-card"
 import { Button } from "@/components/ui/button"
-import { getTranslation } from "@/lib/i18n"
 import { mockTours } from "@/lib/mock-data"
-import { motion } from "framer-motion"
 import { useLocale } from "@/hooks/use-locale"
+import { useToursGet } from "@/services/tours.service"
+import { ITour } from "@/types"
 
 const TurCategory = () => {
-    const { locale } = useLocale()
-    const uzbekistanTours = mockTours.filter((tour) => tour.category === "uzbekistan").slice(0, 4)
-    const internationalTours = mockTours.filter((tour) => tour.category === "international").slice(0, 4)
+    const { locale, t } = useLocale()
+    const { data: uzbekistanTours } = useToursGet()
+    const { data: internationalTours } = useToursGet()
     return (
         <section className="py-20 px-4 bg-gradient-to-br from-primary/5 to-secondary/5">
             <div className="container">
@@ -19,22 +19,20 @@ const TurCategory = () => {
                     <div>
                         <div className="text-center mb-8">
                             <h3 className="text-3xl font-bold text-foreground mb-4">
-                                {getTranslation(locale, "tours.uzbekistan")}
+                                {t.get("home.tour-uz")}
                             </h3>
                             <p className="text-muted-foreground">
-                                {locale === "en" && "Explore the heart of Central Asia"}
-                                {locale === "uz" && "Markaziy Osiyoning qalbini kashf eting"}
-                                {locale === "ru" && "Исследуйте сердце Центральной Азии"}
+                                Explore the heart of Central Asia
                             </p>
                         </div>
                         <div className="grid grid-cols-1 gap-6 mb-8">
-                            {uzbekistanTours.map((tour, index) => (
-                                <SmallTourCard key={tour.id} tour={tour} index={index} />
+                            {uzbekistanTours?.data.map((tour, index) => (
+                                <SmallTourCard key={tour.id} tour={tour as ITour} index={index} />
                             ))}
                         </div>
                         <div className="text-center">
                             <Button variant="outline" size="lg" className="rounded-full bg-transparent">
-                                {getTranslation(locale, "tours.viewAll")}
+                                {t.get("tours.all-tours")}
                             </Button>
                         </div>
                     </div>
@@ -43,22 +41,20 @@ const TurCategory = () => {
                     <div>
                         <div className="text-center mb-8">
                             <h3 className="text-3xl font-bold text-foreground mb-4">
-                                {getTranslation(locale, "tours.international")}
+                                {t.get("home.tour-ru")}
                             </h3>
                             <p className="text-muted-foreground">
-                                {locale === "en" && "Discover amazing destinations worldwide"}
-                                {locale === "uz" && "Butun dunyo bo'ylab ajoyib joylarni kashf eting"}
-                                {locale === "ru" && "Откройте удивительные места по всему миру"}
+                                Discover amazing destinations worldwide
                             </p>
                         </div>
                         <div className="grid grid-cols-1 gap-6 mb-8">
-                            {internationalTours.map((tour, index) => (
-                                <SmallTourCard key={tour.id} tour={tour} index={index} />
+                            {internationalTours?.data.map((tour, index) => (
+                                <SmallTourCard key={tour.id} tour={tour as ITour} index={index} />
                             ))}
                         </div>
                         <div className="text-center">
                             <Button variant="outline" size="lg" className="rounded-full bg-transparent">
-                                {getTranslation(locale, "tours.viewAll")}
+                                {t.get("tours.all-tours")}
                             </Button>
                         </div>
                     </div>
