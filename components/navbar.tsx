@@ -13,7 +13,8 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { locale, t } = useLocale()
-  const { fetchTranslations, fetchSiteinfo, setLang } = useTranslationStore()
+
+  const { fetchTranslations, fetchSiteinfo, setLang, lang } = useTranslationStore()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -101,15 +102,15 @@ export function Navbar() {
                 style={!isScrolled ? { textShadow: "1px 1px 2px rgba(0,0,0,0.8)" } : {}}
               >
                 <Globe className="h-4 w-4" />
-                <span className="hidden sm:inline">{localeLabels[locale]}</span>
+                <span className="hidden sm:inline">{localeLabels[lang]}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {(["en", "uz", "ru"] as string[]).map((lang) => (
+              {(["en", "uz", "ru"] as string[]).map((lang1) => (
                 <DropdownMenuItem
-                  key={lang}
-                  onClick={() => {fetchTranslations(lang); setLang(lang); fetchSiteinfo(lang)}}
-                  className={locale === lang ? "bg-accent" : ""}
+                  key={lang1}
+                  onClick={() => {fetchTranslations(lang1); setLang(lang1); fetchSiteinfo(lang1)}}
+                  className={lang === lang1 ? "bg-accent" : ""}
                 >
                   {localeLabels[lang]}
                 </DropdownMenuItem>

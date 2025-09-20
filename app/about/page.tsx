@@ -17,10 +17,10 @@ export default function AboutPage() {
   const { siteinfo} = useTranslationStore()
 
   const stats = [
-    { number: "10+", label: "Years Experience" },
-    { number: "5000+", label: "Happy Travelers" },
-    { number: "50+", label: "Destinations" },
-    { number: "98%", label: "Satisfaction" },
+    { number: t.get("about.number1"), label: t.get("about.label1") },
+    { number: t.get("about.number2"), label: t.get("about.label2") },
+    { number: t.get("about.number3"), label: t.get("about.label3") },
+    { number: t.get("about.number4"), label: t.get("about.label4") },
   ]
 
   return (
