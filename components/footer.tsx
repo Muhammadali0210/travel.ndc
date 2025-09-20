@@ -39,7 +39,7 @@ export function Footer() {
             >
               TravelUz
             </motion.div>
-            <p className="text-muted-foreground text-sm leading-relaxed"  dangerouslySetInnerHTML={{ __html: siteinfo?.desc || ""}}></p>
+            <p className="text-muted-foreground text-sm leading-relaxed">{t.get("footer.small-description")}</p>
             <div className="flex space-x-3">
               {socialLinks.map((social, index) => (
                 <motion.a

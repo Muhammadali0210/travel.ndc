@@ -9,68 +9,27 @@ import { Badge } from "@/components/ui/badge"
 import { Users, Award, Globe, Heart } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import WhyChooseUs from "../(home)/_components/why-choose-us"
+import useTranslationStore from "@/store/lang.store"
 
 export default function AboutPage() {
   const { t } = useLocale()
+  const { siteinfo} = useTranslationStore()
 
   const stats = [
-      { number: "10+", label: "Years Experience" },
+    { number: "10+", label: "Years Experience" },
     { number: "5000+", label: "Happy Travelers" },
     { number: "50+", label: "Destinations" },
     { number: "98%", label: "Satisfaction" },
-  ]
-
-  const team = [
-    {
-      name: "Akmal Karimov",
-      role: "Founder",
-      image: "/professional-uzbek-man-founder.jpg",
-      bio: "Founder",
-    },
-    {
-      name: "Dilnoza Rahimova",
-      role: "Tour Guide",
-      image: "/professional-uzbek-woman-tour-guide.jpg",
-      bio: "Tour Guide",
-    },
-    {
-      name: "Bobur Tashmatov",
-      role: "Operations Manager",
-      image: "/professional-uzbek-man-operations-manager.jpg",
-      bio: "Operations Manager",
-    },
-  ]
-
-  const values = [
-    {
-      icon: Heart,
-      title: "Passion",
-      description: "We are passionate about travel and sharing the wonders of the world with you.",
-    },
-    {
-      icon: Users,
-      title: "Community",
-      description: "We support local communities and promote sustainable tourism practices.",
-    },
-    {
-      icon: Award,
-      title: "Excellence",
-      description: "We strive for excellence in every aspect of your journey.",
-    },
-    {
-      icon: Globe,
-      title: "Sustainability",
-      description: "We are committed to responsible tourism that preserves destinations for future generations.",
-    },
   ]
 
   return (
     <div className="min-h-screen">
       <PageBanner
         title="About Us"
-        subtitle="Discover who we are and what drives our passion for travel"
+        description=""
         backgroundImage="/bukhara-old-city-architecture.jpg"
-        height="60vh"
+        height="50vh"
       />
 
       <div className="container mx-auto px-4 py-16">
@@ -79,16 +38,12 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <Badge variant="secondary" className="mb-4">
-                Our Story
+                {t.get("about.small-title")}
               </Badge>
-              <h2 className="text-3xl font-bold mb-6 text-balance">Passionate About Creating Unforgettable Journeys</h2>
-              <div className="space-y-4 text-muted-foreground leading-relaxed">
-                <p>Founded in 2014, we began as a small group of travel enthusiasts with a simple mission: to share the incredible beauty and rich culture of Uzbekistan with the world.</p>
-                <p>Over the years, we've grown into a trusted travel company, but our core values remain unchanged. We believe that travel is more than just visiting places – it's about creating connections, understanding cultures, and making memories that last a lifetime.</p>
-                <p>Today, we're proud to have helped thousands of travelers discover the magic of Central Asia and beyond, always with the same personal touch and attention to detail that defined us from the beginning.</p>
-              </div>
+              <h2 className="text-3xl font-bold mb-6 text-balance">{ siteinfo?.title }</h2>
+              <div className="space-y-4 text-muted-foreground leading-relaxed" dangerouslySetInnerHTML={{ __html: siteinfo?.desc || ""}}></div>
               <Link href="/contact">
-                <Button className="mt-6">Get In Touch</Button>
+                <Button className="mt-6">{t.get("nav.link6")}</Button>
               </Link>
             </div>
             <div className="relative h-[500px] rounded-2xl overflow-hidden">
@@ -123,29 +78,9 @@ export default function AboutPage() {
         </motion.section>
 
         {/* Our Values */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="mb-20"
-        >
-          <div className="text-center mb-12">
-            <Badge variant="secondary" className="mb-4">
-              Our Values
-            </Badge>
-            <h2 className="text-3xl font-bold mb-4 text-balance">What We Stand For</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">What We Stand For</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value, index) => (
-              
-                <FeatureCard icon={value.icon} title={value.title} description={value.description} />
-            ))}
-          </div>
-        </motion.section>
+        <WhyChooseUs />
 
-        {/* Team */}
-        <motion.section
+        {/* <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
@@ -181,7 +116,7 @@ export default function AboutPage() {
               </motion.div>
             ))}
           </div>
-        </motion.section>
+        </motion.section> */}
       </div>
     </div>
   )
