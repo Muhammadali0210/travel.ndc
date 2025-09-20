@@ -12,10 +12,16 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'project1.ndc-agency.uz',
-        port: '',
         pathname: '/upload/images/**',
       },
     ],
+  },
+  reactStrictMode: false, // qat’iy tekshiruvlarni o‘chiradi
+  compiler: {
+    reactRemoveProperties: true,
+  },
+  devIndicators: {
+    buildActivity: false,   // ⛔ Dev indicatorni o‘chiradi
   },
 }
 

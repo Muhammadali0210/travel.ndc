@@ -14,22 +14,27 @@ import { ITour } from "@/types"
 export default function ToursPage() {
   const { t } = useLocale()
   const [searchTerm, setSearchTerm] = useState("")
-  const [categoryFilter, setCategoryFilter] = useState<string>("all")
-  const [sortBy, setSortBy] = useState<string>("all")
+  const [categoryFilter, setCategoryFilter] = useState<string | null>("all")
+  const [sortBy, setSortBy] = useState<string | null>("all")
+  const [title, setTitle] = useState("")
 
   const { data: filteredTours } = useToursGet({
     params: {
-      search: searchTerm,
+      title: title,
+      price_sort: sortBy === "all" ? null : sortBy,
+      info: categoryFilter === "all" ? null : categoryFilter
     },
     options: {
       keepPreviousData: true,
+      retry: false
     }
   })
 
 
   const searchHandler = (text: string) => {
+    setSearchTerm(text)
     let timeout = setTimeout(() => {
-      setSearchTerm(text)
+      setTitle(text)
     }, 500)
     return () => clearTimeout(timeout)
   }
@@ -63,25 +68,25 @@ export default function ToursPage() {
 
             {/* Filters */}
             <div className="flex flex-wrap items-center justify-center gap-4 max-md:mt-4">
-              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <Select value={categoryFilter as string} onValueChange={(e) => setCategoryFilter(e === "all" ? null : e)}>
                 <SelectTrigger className="w-48 max-md:w-full rounded-xl border border-border">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">{t.get("tours.all-tours")}</SelectItem>
-                  <SelectItem value="uzbekistan">{t.get("home.tour-uz")}</SelectItem>
-                  <SelectItem value="international">{t.get("home.tour-ru")}</SelectItem>
+                  <SelectItem value="1">{t.get("home.tour-uz")}</SelectItem>
+                  <SelectItem value="0">{t.get("home.tour-ru")}</SelectItem>
                 </SelectContent>
               </Select>
 
-              <Select value={sortBy} onValueChange={setSortBy}>
+              <Select value={sortBy as string} onValueChange={(e) => setSortBy(e === "all" ? null : e)}>
                 <SelectTrigger className="w-48 max-md:w-full rounded-xl border border-border">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">{t.get("tours.all-tours")}</SelectItem>
-                  <SelectItem value="high">{t.get("tours.price-low-to")}</SelectItem>
-                  <SelectItem value="low">{t.get("tours.price-high-to")}</SelectItem>
+                  <SelectItem value="asc">{t.get("tours.price-low-to")}</SelectItem>
+                  <SelectItem value="desc">{t.get("tours.price-high-to")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -100,7 +105,7 @@ export default function ToursPage() {
           </motion.div>
 
           {/* Empty State */}
-          {filteredTours?.data.length === 0 && (
+          {filteredTours?.data.length === 0 || !filteredTours && (
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}

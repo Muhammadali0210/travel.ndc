@@ -87,7 +87,7 @@ export function Footer() {
                 ))
               )}
               {siteinfo?.phone_number && (
-                siteinfo?.phone?.split("|")?.map((line, idx) => (
+                siteinfo?.phone_number?.split("|")?.map((line, idx) => (
                   <div key={idx} className="flex items-center space-x-3 text-sm text-muted-foreground">
                     <Phone className="h-4 w-4 text-primary flex-shrink-0" />
                     <span>{line}</span>
