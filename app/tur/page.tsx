@@ -12,19 +12,33 @@ import { useToursGet } from "@/services/tours.service"
 import { ITour } from "@/types"
 
 export default function ToursPage() {
-  const { locale, t } = useLocale()
+  const { t } = useLocale()
   const [searchTerm, setSearchTerm] = useState("")
   const [categoryFilter, setCategoryFilter] = useState<string>("all")
-  const [sortBy, setSortBy] = useState<string>("popular")
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
+  const [sortBy, setSortBy] = useState<string>("all")
 
-  const { data: filteredTours } = useToursGet()
+  const { data: filteredTours } = useToursGet({
+    params: {
+      search: searchTerm,
+    },
+    options: {
+      keepPreviousData: true,
+    }
+  })
+
+
+  const searchHandler = (text: string) => {
+    let timeout = setTimeout(() => {
+      setSearchTerm(text)
+    }, 500)
+    return () => clearTimeout(timeout)
+  }
 
   return (
     <div className="min-h-screen">
       <PageBanner
-        title={t.get("nav.link3")}
-        description="Discover amazing destinations and unforgettable experiences"
+        title={t.get("tours.title")}
+        description={t.get("tours.desc")}
         backgroundImage="/images/nature.jpg"
         height="50vh"
       />
@@ -40,11 +54,9 @@ export default function ToursPage() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
                 type="text"
-                placeholder={
-                  "Search tours..."
-                }
+                placeholder={t.get("tours.search-text")}
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => searchHandler(e.target.value)}
                 className="pl-10 rounded-xl border border-border"
               />
             </div>
@@ -56,9 +68,7 @@ export default function ToursPage() {
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">
-                    All Tours
-                  </SelectItem>
+                  <SelectItem value="all">{t.get("tours.all-tours")}</SelectItem>
                   <SelectItem value="uzbekistan">{t.get("home.tour-uz")}</SelectItem>
                   <SelectItem value="international">{t.get("home.tour-ru")}</SelectItem>
                 </SelectContent>
@@ -69,18 +79,9 @@ export default function ToursPage() {
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="popular">
-                    Most Popular
-                  </SelectItem>
-                  <SelectItem value="price-low">
-                    Price: Low to High
-                  </SelectItem>
-                  <SelectItem value="price-high">
-                    Price: High to Low
-                  </SelectItem>
-                  <SelectItem value="duration">
-                    Duration
-                  </SelectItem>
+                  <SelectItem value="all">{t.get("tours.all-tours")}</SelectItem>
+                  <SelectItem value="high">{t.get("tours.price-low-to")}</SelectItem>
+                  <SelectItem value="low">{t.get("tours.price-high-to")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -108,11 +109,8 @@ export default function ToursPage() {
             >
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="text-2xl font-bold text-foreground mb-2">
-                No tours found
+                {t.get("tours.tour-not-found")}
               </h3>
-              <p className="text-muted-foreground">
-                Try adjusting your search criteria
-              </p>
             </motion.div>
           )}
         </div>

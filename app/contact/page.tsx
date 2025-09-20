@@ -9,58 +9,77 @@ import { PageBanner } from "@/components/page-banner"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { MapPin, Phone, Mail, Clock, Send, MessageSquare } from "lucide-react"
+import { MapPin, Phone, Mail, Clock, Send } from "lucide-react"
+import useTranslationStore from "@/store/lang.store"
+import request from "@/hooks/https-request"
+import { toast } from "sonner"
 
 export default function ContactPage() {
   const { t } = useLocale()
+  const { siteinfo } = useTranslationStore()
+  const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
-    subject: "",
+    phone_number: "",
     message: "",
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission
-    console.log("Form submitted:", formData)
-  }
-
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
+    try {
+      setIsLoading(true)
+      const formData = new FormData();
+      formData.append("name", formData?.name);
+      formData.append("email", formData?.email);
+      formData.append("phone_number", formData?.phone_number);
+      formData.append("message", formData?.message);
+      const res = await request.post("/contacts", formData);
+      alert(t.get("contact.form-success"));
+      setFormData({
+        name: "",
+        email: "",
+        phone_number: "",
+        message: "",
+      })
+      console.log("Form submitted:", res)
+    } catch (error) {
+      console.log("Error submitting form:", error)
+      alert(t.get("contact.form-error"));
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const contactInfo = [
     {
       icon: MapPin,
-      title: "Address",
-      details: ["Tashkent, Uzbekistan", "Amir Temur Street 15", "Yunusabad District"],
+      title: t.get("contact.address"),
+      details: siteinfo ? siteinfo.address?.split("|") : []
     },
     {
       icon: Phone,
-      title: "Phone",
-      details: ["+998 71 123 45 67", "+998 90 123 45 67", "+998 95 123 45 67"],
+      title: t.get("contact.phone"),
+      details: siteinfo ? siteinfo.phone_number?.split("|") : [],
     },
     {
       icon: Mail,
-      title: "Email",
-      details: ["info@uzbektravel.com", "tours@uzbektravel.com", "support@uzbektravel.com"],
+      title: t.get("contact.email"),
+      details: siteinfo ? siteinfo.email?.split("|") : [],
     },
     {
       icon: Clock,
-      title: "Hours",
-      details: ["Mon - Fri: 9:00 AM - 6:00 PM", "Saturday: 10:00 AM - 4:00 PM", "Sunday: Closed"],
+      title: t.get("contact.work-hours"),
+      details: siteinfo ? siteinfo.work_time?.split("|") : [],
     },
   ]
 
   return (
     <div className="min-h-screen">
       <PageBanner
-        title="Contact Us"
-        description="Get in touch with our travel experts to plan your perfect journey"
+        title={t.get("contact.title")}
+        description={t.get("contact.desc")}
         backgroundImage="/images/nature3.webp"
         height="50vh"
       />
@@ -68,68 +87,48 @@ export default function ContactPage() {
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Contact Form */}
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+          <div>
             <Badge variant="secondary" className="mb-4">
-              Get In Touch
+              {t.get("contact.get-in-touch")}
             </Badge>
-            <h2 className="text-3xl font-bold mb-6 text-balance">Send Us a Message</h2>
-            <p className="text-muted-foreground mb-8 leading-relaxed">Have questions about our tours or need help planning your trip? Fill out the form below and we'll get back to you within 24 hours.</p>
+            <h2 className="text-3xl font-bold mb-6 text-balance">{t.get("contact.from-title")}</h2>
+            <p className="text-muted-foreground mb-8 leading-relaxed">{t.get("contact.from-subtitle")}</p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2">Name *</label>
+                  <label className="block text-sm font-medium mb-2">{t.get("contact.form-name")} *</label>
                   <Input
                     value={formData.name}
-                    onChange={(e) => handleChange("name", e.target.value)}
-                    placeholder="Enter your full name"
+                    onChange={(e) => setFormData((prev) => ({...prev, name: e.target.value}))}
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Email *</label>
+                  <label className="block text-sm font-medium mb-2">{t.get("contact.form-email")}</label>
                   <Input
                     type="email"
                     value={formData.email}
-                    onChange={(e) => handleChange("email", e.target.value)}
-                      placeholder="Enter your email address"
-                    required
+                    onChange={(e) => setFormData((prev) => ({...prev, email: e.target.value}))}
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">Phone *</label>
+                <label className="block text-sm font-medium mb-2">{t.get("contact.from-phone")}</label>
                 <Input
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => handleChange("phone", e.target.value)}
-                  placeholder="Enter your phone number"
+                  type="text"
+                  value={formData.phone_number}
+                  onChange={(e) => setFormData((prev) => ({...prev, phone_number: e.target.value}))}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">Subject *</label>
-                <Select value={formData.subject} onValueChange={(value) => handleChange("subject", value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a subject" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="booking">Tour Booking</SelectItem>
-                    <SelectItem value="information">General Information</SelectItem>
-                    <SelectItem value="support">Customer Support</SelectItem>
-                    <SelectItem value="partnership">Partnership Inquiry</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2">Message *</label>
+                <label className="block text-sm font-medium mb-2">{t.get("contact.from-message")} *</label>
                 <Textarea
                   value={formData.message}
-                  onChange={(e) => handleChange("message", e.target.value)}
-                  placeholder="Tell us about your travel plans or questions..."
+                  onChange={(e) => setFormData((prev) => ({...prev, message: e.target.value}))}
+                  placeholder={t.get("contact.from-message-placeh")}
                   rows={6}
                   required
                 />
@@ -137,18 +136,18 @@ export default function ContactPage() {
 
               <Button type="submit" className="w-full gap-2">
                 <Send className="h-4 w-4" />
-                  Send Message
+                {t.get("contact.send")} {isLoading ? "..." : ""}
               </Button>
             </form>
-          </motion.div>
+          </div>
 
           {/* Contact Information */}
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
             <Badge variant="secondary" className="mb-4">
-              Contact Information
+              {t.get("contact.contact-information")}
             </Badge>
-            <h2 className="text-3xl font-bold mb-6 text-balance">Let's Start Planning Your Adventure</h2>
-            <p className="text-muted-foreground mb-8 leading-relaxed">Ready to explore? Contact us through any of the methods below and let's create your perfect travel experience.</p>
+            <h2 className="text-3xl font-bold mb-6 text-balance">{t.get("contact.contact-infor-text")}</h2>
+            <p className="text-muted-foreground mb-8 leading-relaxed">{t.get("contact.contact-infor-subtext")}</p>
 
             <div className="space-y-8">
               {contactInfo.map((info, index) => (
@@ -167,7 +166,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold mb-2">{info.title}</h3>
                     <div className="space-y-1">
-                      {info.details.map((detail, detailIndex) => (
+                      {info?.details?.map((detail, detailIndex) => (
                         <p key={detailIndex} className="text-muted-foreground">
                           {detail}
                         </p>
@@ -189,16 +188,24 @@ export default function ContactPage() {
         >
           <div className="text-center mb-8">
             <Badge variant="secondary" className="mb-4">
-              Our Location
+              {t.get("contact.our-location")}
             </Badge>
-            <h2 className="text-3xl font-bold mb-4">Find Us</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">Visit our office in the heart of Tashkent for personalized travel consultation and planning.</p>
+            <h2 className="text-3xl font-bold mb-4">{t.get("contact.map-text")}</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">{t.get("contact.map-subtex")}</p>
           </div>
-          <div className="bg-gray-100 rounded-2xl h-96 flex items-center justify-center">
-            <div className="text-center">
-              <MapPin className="h-12 w-12 text-primary mx-auto mb-4" />
-              <p className="text-muted-foreground">Our office is located in the heart of Tashkent, Uzbekistan.</p>
-            </div>
+          <div className="bg-gray-100 rounded-2xl h-96 relative overflow-hidden">
+            <style>{`
+              .map-container iframe {
+                width: 100%;
+                height: 100%;
+                border: 0;
+                border-radius: 1rem;
+              }
+            `}</style>
+            <div
+              className="map-container w-full h-full"
+              dangerouslySetInnerHTML={{ __html: siteinfo?.map || "" }}
+            />
           </div>
         </motion.div>
       </div>

@@ -15,10 +15,17 @@ interface InnerPage {
    data: ITour
 }
 
-export const useToursGet = () => {
+export const useToursGet = ({
+  params,
+  options
+}: {
+  params?: Params;
+  options?: UseQueryOptions<ApiResponse, Error>;
+} = {}) => {
   return useQuery<ApiResponse, Error>({
-    queryKey: ['tours'],
-    queryFn: () => service.getList().then(res => res.data)
+    queryKey: ['tours', params],
+    queryFn: () => service.getList(params).then(res => res.data),
+    ...options
   });
 };
 

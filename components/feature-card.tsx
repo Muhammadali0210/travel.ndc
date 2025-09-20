@@ -6,11 +6,10 @@ import type { LucideIcon } from "lucide-react"
 interface FeatureCardProps {
   icon: LucideIcon
   title: string
-  description: string
   index?: number
 }
 
-export function FeatureCard({ icon: Icon, title, description, index = 0 }: FeatureCardProps) {
+export function FeatureCard({ icon: Icon, title,  index = 0 }: FeatureCardProps) {
   return (
     <div
       
@@ -32,7 +31,6 @@ export function FeatureCard({ icon: Icon, title, description, index = 0 }: Featu
         {/* Content */}
         <div className="space-y-2">
           <h3 className="text-xl font-bold text-card-foreground group-hover:text-primary transition-colors">{title}</h3>
-          <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
         </div>
       </div>
     </div>

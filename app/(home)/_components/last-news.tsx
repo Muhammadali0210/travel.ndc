@@ -9,7 +9,7 @@ import { useNewsGet } from "@/services/news.service"
 import { INews } from "@/types"
 
 const LastNews = () => {
-    const { locale, t } = useLocale()
+    const { t } = useLocale()
     const { data: latestNews } = useNewsGet()
 
     return (
@@ -22,7 +22,7 @@ const LastNews = () => {
                         {t.get("home.news")}
                     </h2>
                     <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                        Stay updated with the latest travel news and destination insights.
+                        {t.get("home.news-title")}
                     </p>
                 </div>
 

@@ -9,6 +9,7 @@ import { ScrollToTop } from "@/components/scroll-to-top"
 import { Suspense } from "react"
 import "./globals.css"
 import Providers from "@/components/providers/provider"
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
   title: "TravelUz - Discover Amazing Adventures",
@@ -30,9 +31,11 @@ export default function RootLayout({
             <main className="min-h-screen">{children}</main>
             <Footer />
             <ScrollToTop />
+            
           </Suspense>
           <Analytics />
         </Providers>
+        <Toaster />
       </body>
     </html>
   )

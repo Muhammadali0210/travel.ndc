@@ -7,11 +7,12 @@ import useTranslationStore from '@/store/lang.store'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  const { t, fetchTranslations } = useTranslationStore()
+  const { t, fetchTranslations, fetchSiteinfo } = useTranslationStore()
   const [queryClient] = useState(() => new QueryClient())
 
   useEffect(() => {
     fetchTranslations('en')
+    fetchSiteinfo('en')
   }, [fetchTranslations])
 
   return (

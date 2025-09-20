@@ -7,11 +7,13 @@ import { Menu, X, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useLocale } from "@/hooks/use-locale"
+import useTranslationStore from "@/store/lang.store"
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { locale, changeLocale, t } = useLocale()
+  const { locale, t } = useLocale()
+  const { fetchTranslations, fetchSiteinfo, setLang } = useTranslationStore()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -106,7 +108,7 @@ export function Navbar() {
               {(["en", "uz", "ru"] as string[]).map((lang) => (
                 <DropdownMenuItem
                   key={lang}
-                  onClick={() => changeLocale(lang)}
+                  onClick={() => {fetchTranslations(lang); setLang(lang); fetchSiteinfo(lang)}}
                   className={locale === lang ? "bg-accent" : ""}
                 >
                   {localeLabels[lang]}

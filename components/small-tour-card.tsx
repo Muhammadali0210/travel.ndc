@@ -36,18 +36,18 @@ export function SmallTourCard({ tour, index = 0 }: SmallTourCardProps) {
           </div>
         </div>
 
-        <div className="p-4 max-md:pl-0 space-y-2 flex flex-col justify-between">
+        <div className="p-4 max-md:pl-0 space-y-2 flex flex-col justify-between w-full">
           <h4 className="font-semibold text-card-foreground group-hover:text-primary transition-colors line-clamp-2">
             {tour?.title}
           </h4>
 
-          <div className="w-full flex items-center justify-between text-xs text-muted-foreground">
-            <div className="flex items-center space-x-1">
+          <div className="w-full flex items-center justify-between text-xs text-muted-foreground font-semibold">
+            <div className="flex items-center gap-1">
               <Clock className="w-3 h-3" />
-              <span className="font-medium">{tour?.date}</span>
+              <span className="">{tour?.date}</span>
             </div>
-            <div className="flex items-center"> 
-              <span className="font-medium">{tour?.price}</span>
+            <div className="flex items-center gap-1 "> 
+              <span className="">{tour?.price}</span>
             </div>
           </div>
         </div>

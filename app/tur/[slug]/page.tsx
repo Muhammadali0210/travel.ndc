@@ -21,17 +21,13 @@ interface TourPageProps {
 }
 
 export default function TourPage({ params }: TourPageProps) {
-  const { locale } = useLocale()
+  const { t } = useLocale()
   const { slug } = React.use(params)
   const { data: tour, isLoading } = useToursByIdGet(slug)
 
-  // if (isLoading || !tour?.data) {
-  //   notFound()
-  // }
 
   return (
     <div className="min-h-screen" style={{ opacity: isLoading ? 0.5 : 1 }}>
-      {/* Hero Section */}
       <div className="relative h-[70vh] overflow-hidden">
         <div className="container">
             <Image src={getImageUrl(tour?.data?.images[0]?.lg)} alt="Image" fill className="object-cover" priority />
@@ -50,12 +46,11 @@ export default function TourPage({ params }: TourPageProps) {
                 {tour?.data?.status === "1" && (
                   <Badge className="bg-secondary text-secondary-foreground">
                     <Star className="w-3 h-3 mr-1 fill-current" />
-                    Popular
+                    {t.get("tours.featured")}
                   </Badge>
                 )}
 
                 <h1 className="text-4xl md:text-6xl font-bold text-white text-balance">{tour?.data?.title}</h1>
-
 
                 <div className="flex flex-wrap items-center gap-6 text-white/80">
                   <div className="flex items-center space-x-2">
@@ -65,10 +60,6 @@ export default function TourPage({ params }: TourPageProps) {
                   <div className="flex items-center space-x-2">
                     <span className="text-2xl font-bold text-white">{tour?.data?.price}</span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <MapPin className="w-5 h-5" />
-                    {/* <span>{tour?.category === "uzbekistan" ? "Uzbekistan" : "International"}</span> */}
-                  </div>
                 </div>
               </motion.div>
             </div>
@@ -76,13 +67,10 @@ export default function TourPage({ params }: TourPageProps) {
         </div>
       </div>
 
-      {/* Content Section */}
       <section className="py-16 px-4">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Main Content */}
             <div className="lg:col-span-2 space-y-12">
-              {/* Overview */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -110,7 +98,6 @@ export default function TourPage({ params }: TourPageProps) {
               <Overview tour={tour?.data as ITour} />
             </div>
 
-            {/* Sidebar */}
             <Sidebar />
           </div>
         </div>

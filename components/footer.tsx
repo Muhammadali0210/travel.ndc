@@ -6,9 +6,11 @@ import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useLocale } from "@/hooks/use-locale"
+import useTranslationStore from "@/store/lang.store"
 
 export function Footer() {
   const { locale, t } = useLocale()
+  const { siteinfo } = useTranslationStore()
 
   const quickLinks = [
     { href: "/", key: "nav.link1" },
@@ -37,14 +39,7 @@ export function Footer() {
             >
               TravelUz
             </motion.div>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              {locale === "en" &&
-                "Discover the beauty of Uzbekistan and the world with our expertly crafted tours and unforgettable experiences."}
-              {locale === "uz" &&
-                "Bizning professional tarzda tayyorlangan sayohatlar va unutilmas tajribalar bilan O'zbekiston va dunyo go'zalligini kashf eting."}
-              {locale === "ru" &&
-                "Откройте красоту Узбекистана и мира с нашими профессионально разработанными турами и незабываемыми впечатлениями."}
-            </p>
+            <p className="text-muted-foreground text-sm leading-relaxed"  dangerouslySetInnerHTML={{ __html: siteinfo?.desc || ""}}></p>
             <div className="flex space-x-3">
               {socialLinks.map((social, index) => (
                 <motion.a
@@ -64,9 +59,7 @@ export function Footer() {
           {/* Quick Links */}
           <div className="space-y-4">
             <h3 className="font-semibold text-foreground">
-              {locale === "en" && "Quick Links"}
-              {locale === "uz" && "Tezkor Havolalar"}
-              {locale === "ru" && "Быстрые Ссылки"}
+              {t.get("footer.quick-links")}
             </h3>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
@@ -82,23 +75,33 @@ export function Footer() {
           {/* Contact Info */}
           <div className="space-y-4">
             <h3 className="font-semibold text-foreground">
-              {locale === "en" && "Contact Info"}
-              {locale === "uz" && "Aloqa Ma'lumotlari"}
-              {locale === "ru" && "Контактная Информация"}
+              {t.get("footer.contact-infor")}
             </h3>
             <div className="space-y-3">
-              <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                <MapPin className="h-4 w-4 text-primary flex-shrink-0" />
-                <span>Tashkent, Uzbekistan</span>
-              </div>
-              <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                <Phone className="h-4 w-4 text-primary flex-shrink-0" />
-                <span>+998 71 123 45 67</span>
-              </div>
-              <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                <Mail className="h-4 w-4 text-primary flex-shrink-0" />
-                <span>info@traveluz.com</span>
-              </div>
+              {siteinfo?.address && (
+                siteinfo?.address?.split("|")?.map((line, idx) => (
+                  <div key={idx} className="flex items-center space-x-3 text-sm text-muted-foreground">
+                    <MapPin className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span>{line}</span>
+                  </div>
+                ))
+              )}
+              {siteinfo?.phone_number && (
+                siteinfo?.phone?.split("|")?.map((line, idx) => (
+                  <div key={idx} className="flex items-center space-x-3 text-sm text-muted-foreground">
+                    <Phone className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span>{line}</span>
+                  </div>
+                ))
+              )}
+              {siteinfo?.email && (
+                siteinfo?.email?.split("|")?.map((line, idx) => (
+                  <div key={idx} className="flex items-center space-x-3 text-sm text-muted-foreground">
+                    <Mail className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span>{line}</span>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
@@ -106,22 +109,9 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-8 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-sm text-muted-foreground">
-            © 2024 TravelUz. {locale === "en" && "All rights reserved."}
-            {locale === "uz" && "Barcha huquqlar himoyalangan."}
-            {locale === "ru" && "Все права защищены."}
+            © 2024 TravelUz. {t.get("footer.copyright")}
           </p>
-          <div className="flex space-x-6 text-sm text-muted-foreground">
-            <Link href="/privacy" className="hover:text-primary transition-colors">
-              {locale === "en" && "Privacy Policy"}
-              {locale === "uz" && "Maxfiylik Siyosati"}
-              {locale === "ru" && "Политика Конфиденциальности"}
-            </Link>
-            <Link href="/terms" className="hover:text-primary transition-colors">
-              {locale === "en" && "Terms of Service"}
-              {locale === "uz" && "Foydalanish Shartlari"}
-              {locale === "ru" && "Условия Использования"}
-            </Link>
-          </div>
+          
         </div>
       </div>
     </footer>

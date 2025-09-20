@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { useLocale } from "@/hooks/use-locale"
 import { getImageUrl } from "@/lib/utils"
 import { INews } from "@/types"
+import useTranslationStore from "@/store/lang.store"
 
 interface NewsCardProps {
   news: INews
@@ -15,11 +16,12 @@ interface NewsCardProps {
 }
 
 export function NewsCard({ news, index = 0 }: NewsCardProps) {
-  const { locale, t } = useLocale()
+  const { t } = useLocale()
+  const { lang } = useTranslationStore()
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
-    return date.toLocaleDateString(locale === "uz" ? "uz-UZ" : locale === "ru" ? "ru-RU" : "en-US", {
+    return date.toLocaleDateString(lang === "uz" ? "uz-UZ" : lang === "ru" ? "ru-RU" : "en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -58,7 +60,7 @@ export function NewsCard({ news, index = 0 }: NewsCardProps) {
             variant="outline"
             className="w-full cursor-pointer rounded-xl font-semibold hover:bg-primary hover:text-primary-foreground transition-all duration-300 bg-transparent"
           >
-            Read more
+            {t.get("home.learnMore")}
           </Button>
         </Link>
       </div>

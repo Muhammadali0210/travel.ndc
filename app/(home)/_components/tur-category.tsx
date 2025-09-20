@@ -2,14 +2,13 @@
 
 import { SmallTourCard } from "@/components/small-tour-card"
 import { Button } from "@/components/ui/button"
-import { mockTours } from "@/lib/mock-data"
 import { useLocale } from "@/hooks/use-locale"
 import { useToursGet } from "@/services/tours.service"
 import { ITour } from "@/types"
 
 const TurCategory = () => {
     const { locale, t } = useLocale()
-    const { data: uzbekistanTours } = useToursGet()
+    const { data: uzbekistanTours } = useToursGet({params: { country: 'uzbekistan' }})
     const { data: internationalTours } = useToursGet()
     return (
         <section className="py-20 px-4 bg-gradient-to-br from-primary/5 to-secondary/5">
@@ -22,7 +21,7 @@ const TurCategory = () => {
                                 {t.get("home.tour-uz")}
                             </h3>
                             <p className="text-muted-foreground">
-                                Explore the heart of Central Asia
+                                {t.get("home.tour-uz-desc")}
                             </p>
                         </div>
                         <div className="grid grid-cols-1 gap-6 mb-8">
@@ -44,7 +43,7 @@ const TurCategory = () => {
                                 {t.get("home.tour-ru")}
                             </h3>
                             <p className="text-muted-foreground">
-                                Discover amazing destinations worldwide
+                                {t.get("home.tour-ru-desc")}
                             </p>
                         </div>
                         <div className="grid grid-cols-1 gap-6 mb-8">

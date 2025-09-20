@@ -16,7 +16,7 @@ interface TourCardCreativeProps {
 }
 
 export function TourCardCreative({ tour, index = 0 }: TourCardCreativeProps) {
-
+  const { t } = useLocale();
   return (
     <div
       className="group relative overflow-hidden rounded-2xl bg-card shadow-lg hover:shadow-2xl transition-all duration-500"
@@ -42,7 +42,7 @@ export function TourCardCreative({ tour, index = 0 }: TourCardCreativeProps) {
           >
             <Badge className="bg-secondary text-secondary-foreground font-semibold px-3 py-1">
               <Star className="w-3 h-3 mr-1 fill-current" />
-              Popular
+              {t.get("home.popular")}
             </Badge>
           </motion.div>
         )}
@@ -67,11 +67,10 @@ export function TourCardCreative({ tour, index = 0 }: TourCardCreativeProps) {
         <div className="flex items-center justify-between text-sm text-muted-foreground">
           <div className="flex items-center space-x-1">
             <Clock className="w-4 h-4" />
-            <span>{tour?.date}</span>
+            <span className="font-semibold">{tour?.date}</span>
           </div>
           <div className="flex items-center space-x-1">
-            <DollarSign className="w-4 h-4" />
-            <span>
+            <span className="font-semibold">
               {tour?.price}
             </span>
           </div>
@@ -79,7 +78,7 @@ export function TourCardCreative({ tour, index = 0 }: TourCardCreativeProps) {
 
         <Link href={`/tur/${tour?.slug}`}>
           <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-full font-semibold transition-all duration-300 hover:scale-105">
-            View Details
+            {t.get("home.learnMore")}
           </Button>
         </Link>
       </div>

@@ -23,8 +23,8 @@ export default function NewsPage() {
   return (
     <div className="min-h-screen">
       <PageBanner
-        title="Latest News"
-        description="Discover amazing destinations and unforgettable experiences"
+        title={t.get("news.title")}
+        description={t.get("news.desc")}
         backgroundImage="/images/nature2.webp"
         height="50vh"
       />
@@ -38,7 +38,7 @@ export default function NewsPage() {
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
-                placeholder="Search news..."
+                placeholder={t.get("news.search-text")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -63,8 +63,7 @@ export default function NewsPage() {
 
         {filteredNews?.data.length === 0 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-16">
-            <h3 className="text-2xl font-semibold text-muted-foreground mb-4">No results</h3>
-            <p className="text-muted-foreground">Try different search</p>
+            <h3 className="text-2xl font-semibold text-muted-foreground mb-4">{t.get("news.no-result")}</h3>
           </motion.div>
         )}
       </div>

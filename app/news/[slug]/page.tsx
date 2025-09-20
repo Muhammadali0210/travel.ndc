@@ -2,17 +2,14 @@
 
 import { motion } from "framer-motion"
 import { useLocale } from "@/hooks/use-locale"
-import { newsData } from "@/lib/mock-data"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, Calendar, Clock, Share2, Facebook, Twitter, Linkedin } from "lucide-react"
+import { ArrowLeft, Calendar } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { notFound } from "next/navigation"
 import { getImageUrl } from "@/lib/utils"
 import { useNewsByIdGet } from "@/services/news.service"
 import React from "react"
-
 interface NewsPageProps {
   params: Promise<{ slug: string }>
 }
@@ -24,7 +21,6 @@ export default function NewsDetailPage({ params }: NewsPageProps) {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Image */}
       <div className="relative h-[50vh] overflow-hidden">
         <Image src={getImageUrl(news?.images[0]?.lg || "")} alt="Image" fill className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
@@ -32,9 +28,6 @@ export default function NewsDetailPage({ params }: NewsPageProps) {
         <div className="absolute bottom-0 left-0 right-0 p-8">
           <div className="container mx-auto">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="max-w-4xl">
-              <Badge variant="secondary" className="mb-4">
-                {/* {news?.category || "Category"} */}
-              </Badge>
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 text-balance">{news?.title}</h1>
               <div className="flex items-center gap-6 text-white/80">
                 <div className="flex items-center gap-2">
@@ -49,7 +42,6 @@ export default function NewsDetailPage({ params }: NewsPageProps) {
 
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
-          {/* Back Button */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="mb-8">
             <Link href="/news">
               <Button variant="ghost" className="gap-2">
@@ -59,7 +51,6 @@ export default function NewsDetailPage({ params }: NewsPageProps) {
             </Link>
           </motion.div>
 
-          {/* Article Content */}
           <motion.article
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -67,40 +58,8 @@ export default function NewsDetailPage({ params }: NewsPageProps) {
           >
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">{news?.title}</h1>
             <p className="text-xl text-muted-foreground leading-relaxed mb-8" dangerouslySetInnerHTML={{ __html: news?.desc || "" }}></p>
-
-            {/* <div className="space-y-6 text-foreground">
-              <p dangerouslySetInnerHTML={{ __html: news?.desc || "" }}></p>
-            </div> */}
           </motion.article>
 
-          {/* Share Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="mt-12 pt-8 border-t"
-          >
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold flex items-center gap-2">
-                <Share2 className="h-5 w-5" />
-                Share Article
-              </h3>
-              <div className="flex gap-2">
-                <Button size="sm" variant="outline" className="gap-2 bg-transparent">
-                  <Facebook className="h-4 w-4" />
-                  Facebook
-                </Button>
-                <Button size="sm" variant="outline" className="gap-2 bg-transparent">
-                  <Twitter className="h-4 w-4" />
-                  Twitter
-                </Button>
-                <Button size="sm" variant="outline" className="gap-2 bg-transparent">
-                  <Linkedin className="h-4 w-4" />
-                  LinkedIn
-                </Button>
-              </div>
-            </div>
-          </motion.div>
 
           {/* Related Articles */}
           {/* {relatedNews?.data.length > 0 && (
