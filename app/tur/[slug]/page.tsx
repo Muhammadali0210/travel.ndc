@@ -13,6 +13,7 @@ import { getImageUrl } from "@/lib/utils"
 import * as React from "react"
 import { useToursByIdGet } from "@/services/tours.service"
 import { ITour } from "@/types"
+import TurImageSlider from "../_components/tur-image-slider"
 
 
 
@@ -23,6 +24,9 @@ interface TourPageProps {
 export default function TourPage({ params }: TourPageProps) {
   const { t } = useLocale()
   const { slug } = React.use(params)
+  const [ activeImage, setActiveImage ] = React.useState<number>(0);
+
+
   const { data: tour, isLoading } = useToursByIdGet(slug)
 
 
@@ -30,7 +34,7 @@ export default function TourPage({ params }: TourPageProps) {
     <div className="min-h-screen" style={{ opacity: isLoading ? 0.5 : 1 }}>
       <div className="relative h-[70vh] overflow-hidden">
         <div className="container">
-            <Image src={getImageUrl(tour?.data?.images[0]?.lg)} alt="Image" fill className="object-cover" priority />
+            <Image src={getImageUrl(tour?.data?.images[activeImage]?.lg)} alt="Image" fill className="object-cover" priority />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-black/30" />
 
@@ -46,7 +50,7 @@ export default function TourPage({ params }: TourPageProps) {
                 {tour?.data?.status === "1" && (
                   <Badge className="bg-secondary text-secondary-foreground">
                     <Star className="w-3 h-3 mr-1 fill-current" />
-                    {t.get("tours.featured")}
+                    {t.get("home.top")?.split(" ")[0]}
                   </Badge>
                 )}
 
@@ -77,28 +81,13 @@ export default function TourPage({ params }: TourPageProps) {
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
                 <h2 className="text-3xl font-bold text-foreground mb-6">{tour?.data?.title}</h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {tour?.data?.images.map((image, index) => (
-                    <motion.div
-                      key={index}
-                      whileHover={{ scale: 1.05 }}
-                      className="relative h-48 rounded-lg overflow-hidden cursor-pointer"
-                    >
-                      <Image
-                        src={getImageUrl(image?.md || "")}
-                        alt="Image"
-                        fill
-                        className="object-cover"
-                      />
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
 
+                <TurImageSlider images={tour?.data?.images || []} setActiveImage={(e) => setActiveImage(e)} />
+              </motion.div>
               <Overview tour={tour?.data as ITour} />
             </div>
 
-            <Sidebar />
+            <Sidebar tour={tour?.data as ITour} />
           </div>
         </div>
       </section>

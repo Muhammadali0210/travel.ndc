@@ -22,7 +22,7 @@ export default function ToursPage() {
     params: {
       title: title,
       price_sort: sortBy === "all" ? null : sortBy,
-      info: categoryFilter === "all" ? null : categoryFilter
+      status: categoryFilter === "all" ? null : categoryFilter
     },
     options: {
       keepPreviousData: true,

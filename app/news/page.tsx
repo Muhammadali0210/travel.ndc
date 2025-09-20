@@ -6,19 +6,19 @@ import { useLocale } from "@/hooks/use-locale"
 import { NewsCard } from "@/components/news-card"
 import { PageBanner } from "@/components/page-banner"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Search, Calendar, Tag } from "lucide-react"
-import { useTranslation } from "react-i18next";
+import { Search } from "lucide-react"
 import { useNewsGet } from "@/services/news.service"
 import { INews } from "@/types"
+import useTranslationStore from "@/store/lang.store"
 
 export default function NewsPage() {
   const { t, locale } = useLocale();
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [sortBy, setSortBy] = useState("newest")
+  const { lang } = useTranslationStore()
 
-  const { data: filteredNews } = useNewsGet()
+  const { data: filteredNews } = useNewsGet({ params: { lang } })
 
   return (
     <div className="min-h-screen">
@@ -30,24 +30,16 @@ export default function NewsPage() {
       />
 
       <div className="container mx-auto px-4 py-16">
-        {/* Filters */}
-        <div
-          className="mb-12 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border"
-        >
-          <div className="grid grid-cols-1 gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input
-                placeholder={t.get("news.search-text")}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-          </div>
+        <div className="relative w-full mb-12">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+          <Input
+            placeholder={t.get("faq.inputText")}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-12 h-12 text-lg rounded-2xl"
+          />
         </div>
 
-        {/* News Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredNews?.data.map((news, index) => (
             <motion.div

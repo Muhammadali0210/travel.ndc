@@ -11,10 +11,14 @@ interface InnerPage {
   data: INews
 }
 
-export const useNewsGet = () => {
+export const useNewsGet = ({
+  params
+}: {
+  params?: Record<string, unknown>
+} = {}) => {
   return useQuery<ApiResponse, Error>({
     queryKey: ['news'],
-    queryFn: () => service.getList().then(res => res.data)
+    queryFn: () => service.getList(params).then(res => res.data)
   });
 };
 
